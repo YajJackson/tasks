@@ -1,9 +1,9 @@
 # Tasks (name tbd)
 
+
 ## Overview
 Simple task management tool that allows you to create, list, and manage tasks directly in your shell.
 
----
 
 ## Features
 - **Add Tasks**: Create tasks with a description and a unique ID.
@@ -12,13 +12,11 @@ Simple task management tool that allows you to create, list, and manage tasks di
 - **Interactive UI**: Select tasks with a user-friendly interface using `gum`.
 - **Persistent Storage**: Tasks are saved in a JSON file for persistence.
 
----
 
 ## Prerequisites
 - [`jq`](https://stedolan.github.io/jq/) (for JSON manipulation)
 - [`gum`](https://github.com/charmbracelet/gum) (for interactive UI)
 
----
 
 ## Installation
 1. Ensure `jq` and `gum` are installed:
@@ -36,7 +34,6 @@ Simple task management tool that allows you to create, list, and manage tasks di
    mv task /usr/local/bin/task
    ```
 
----
 
 ## Usage
 
@@ -50,7 +47,6 @@ Example:
 task add "Finish project report"
 ```
 
----
 
 ### Show Task Details
 To display details of a specific task:
@@ -59,7 +55,6 @@ task show <task_id>
 ```
 If `<task_id>` is omitted, an interactive menu will appear, allowing you to select a task.
 
----
 
 ### List and Manage Tasks
 To view all tasks and toggle their status:
@@ -69,7 +64,6 @@ task list
 - Press **Space** to toggle a task's status (📝 ↔ ✅).
 - Press **Enter** to confirm your selection.
 
----
 
 ## File Structure
 - Tasks are stored persistently in `.project_tasks/tasks.json` in your current directory.
@@ -85,7 +79,6 @@ task list
   ]
   ```
 
----
 
 ## Examples
 
@@ -113,7 +106,6 @@ $ task show
 **Status**: 📝
 ```
 
----
 
 ## Notes
 - Tasks are sorted by their status (`📝 TODO` first, then `✅ DONE`) and by creation date.
