@@ -1,4 +1,4 @@
-# Task Manager Script - README
+# Tasks (name tbd)
 
 ## Overview
 This Bash script is a simple task management tool that allows you to create, list, and manage tasks with statuses like "TODO" (`📝`) and "DONE" (`✅`). It leverages [jq](https://github.com/jqlang/jq) for JSON manipulation and [gum](https://github.com/charmbracelet/gum) for an interactive user interface.
