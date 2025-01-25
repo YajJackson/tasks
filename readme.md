@@ -4,6 +4,8 @@
 ## Overview
 Simple task management tool that allows you to create, list, and manage tasks directly in your shell.
 
+## Demo
+![Task Program Demo](./docs/task_demo.gif)
 
 ## Features
 - **Add Tasks**: Create tasks with a description and a unique ID.
