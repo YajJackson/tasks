@@ -2,7 +2,7 @@
 
 
 ## Overview
-Minimal task management directly in your shell.
+Simple task management directly in your shell.
 
 
 ## Features
