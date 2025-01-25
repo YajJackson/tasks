@@ -38,18 +38,13 @@ Simple task management tool that allows you to create, list, and manage tasks di
 ## Usage
 
 ### Add a Task
-To add a new task:
-```bash
-task add "<task description>"
-```
-Example:
 ```bash
 task add "Finish project report"
 ```
 
 
 ### Show Task Details
-To display details of a specific task:
+Display details of a specific task:
 ```bash
 task show <task_id>
 ```
@@ -103,7 +98,7 @@ $ task show
 **ID**: 1672527600
 **Description**: Write unit tests
 **Date Created**: 2025-01-24 12:00:00
-**Status**: 📝
+**Status**: TODO
 ```
 
 
