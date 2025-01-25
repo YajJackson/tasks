@@ -8,8 +8,19 @@ initialize() {
 }
 
 add_task() {
-  local task_description="$1"
+  local task_name="$1"
+  local task_description="$2"
 
+  # Prompt for task name if not provided
+  if [ -z "$task_name" ]; then
+    task_name=$(gum input --placeholder "Enter the task name")
+    if [ -z "$task_name" ]; then
+      gum style --foreground 1 "Task name cannot be empty!"
+      return
+    fi
+  fi
+
+  # Prompt for task description if not provided
   if [ -z "$task_description" ]; then
     task_description=$(gum input --placeholder "Enter the task description")
     if [ -z "$task_description" ]; then
@@ -26,13 +37,14 @@ add_task() {
   local new_task
   new_task=$(jq -n \
     --arg id "$task_id" \
+    --arg name "$task_name" \
     --arg description "$task_description" \
     --arg date "$date_created" \
-    '{id: $id, description: $description, date: $date, status: "TODO"}')
+    '{id: $id, name: $name, description: $description, date: $date, status: "TODO"}')
 
   jq ". + [ $new_task ]" "$TASK_FILE" > "$TASK_FILE.tmp" && mv "$TASK_FILE.tmp" "$TASK_FILE"
 
-  gum style --foreground 2 "Task added successfully!"
+  gum style --foreground 2 "Task \"$task_name\" added successfully!"
 }
 
 show_task() {
@@ -56,13 +68,14 @@ show_task() {
     local choices=()
     local ids=()
     while IFS= read -r task; do
-      local id description status display
+      local id name description status display
       id=$(echo "$task" | jq -r .id)
+      name=$(echo "$task" | jq -r .name)
       description=$(echo "$task" | jq -r .description)
       status=$(echo "$task" | jq -r .status)
       [ "$status" == "DONE" ] && status="✅"
       [ "$status" == "TODO" ] && status="📝"
-      display="$status $description"
+      display="$status $name"
       choices+=("$display")
       ids+=("$id")
     done < <(echo "$tasks")
@@ -95,6 +108,7 @@ show_task() {
 ### Task Details
 
 **ID**: $(echo "$task" | jq -r .id)
+**Name**: $(echo "$task" | jq -r .name)
 **Description**: $(echo "$task" | jq -r .description)
 **Date Created**: $(echo "$task" | jq -r .date)
 **Status**: $(echo "$task" | jq -r .status)
@@ -121,11 +135,12 @@ list_tasks() {
   while IFS= read -r task; do
     local id description status display
     id=$(echo "$task" | jq -r .id)
-    description=$(echo "$task" | jq -r .description)
+    # description=$(echo "$task" | jq -r .description)
+    name=$(echo "$task" | jq -r .name)
     status=$(echo "$task" | jq -r .status)
     [ "$status" == "DONE" ] && status="✅"
     [ "$status" == "TODO" ] && status="📝"
-    display="$status $description"
+    display="$status $name"
     choices+=("$display")
     ids+=("$id")
   done < <(echo "$tasks")
