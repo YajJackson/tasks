@@ -11,7 +11,6 @@ Simple task management tool that allows you to create, list, and manage tasks di
 - **Add Tasks**: Create tasks with a description and a unique ID.
 - **List Tasks**: View all tasks interactively, toggle their status (TODO ↔ DONE).
 - **Show Task Details**: Display detailed information about a specific task.
-- **Interactive UI**: Select tasks with a user-friendly interface using `gum`.
 - **Persistent Storage**: Tasks are saved in a JSON file for persistence.
 
 
@@ -46,7 +45,6 @@ task add "Finish project report"
 
 
 ### Show Task Details
-Display details of a specific task:
 ```bash
 task show <task_id>
 ```
@@ -54,7 +52,6 @@ If `<task_id>` is omitted, an interactive menu will appear, allowing you to sele
 
 
 ### List and Manage Tasks
-To view all tasks and toggle their status:
 ```bash
 task list
 ```
@@ -75,33 +72,6 @@ task list
     }
   ]
   ```
-
-
-## Examples
-
-### Adding a Task
-```bash
-$ task add "Write unit tests"
-Task added successfully!
-```
-
-### Listing Tasks
-```bash
-$ task list
-📝 Write unit tests
-✅ Complete project documentation
-```
-
-### Showing a Task
-```bash
-$ task show
-### Task Details
-
-**ID**: 1672527600
-**Description**: Write unit tests
-**Date Created**: 2025-01-24 12:00:00
-**Status**: TODO
-```
 
 
 ## Notes
