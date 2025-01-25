@@ -2,16 +2,18 @@
 
 
 ## Overview
-Simple task management tool that allows you to create, list, and manage tasks directly in your shell.
+Minimal task management directly in your shell.
 
-## Demo
-![Task Program Demo](./docs/task_demo.gif)
 
 ## Features
 - **Add Tasks**: Create tasks with a description and a unique ID.
 - **List Tasks**: View all tasks interactively, toggle their status (TODO ↔ DONE).
 - **Show Task Details**: Display detailed information about a specific task.
 - **Persistent Storage**: Tasks are saved in a JSON file for persistence.
+
+
+## Demo
+![Task Program Demo](./docs/task_demo.gif)
 
 
 ## Prerequisites
