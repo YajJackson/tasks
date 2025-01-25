@@ -9,6 +9,15 @@ initialize() {
 
 add_task() {
   local task_description="$1"
+
+  if [ -z "$task_description" ]; then
+    task_description=$(gum input --placeholder "Enter the task description")
+    if [ -z "$task_description" ]; then
+      gum style --foreground 1 "Task description cannot be empty!"
+      return
+    fi
+  fi
+
   local task_id
   task_id=$(date +%s)
   local date_created
