@@ -1,9 +1,23 @@
 [
-    {
-        "id": "1737771901",
-        "name": "Cool task name",
-        "description": "this is the first task created with the updated ability to add context beyond just a task name.",
-        "date": "2025-01-24 21:25:01",
-        "status": "TODO"
-    }
+  {
+    "id": "1737771901",
+    "name": "Cool task name",
+    "description": "this is the first task created with the updated ability to add context beyond just a task name.",
+    "date": "2025-01-24 21:25:01",
+    "status": "TODO"
+  },
+  {
+    "id": "1737776388",
+    "name": "popup menu option",
+    "description": "try adding some kind of modal for show task command",
+    "date": "2025-01-24 22:39:48",
+    "status": "TODO"
+  },
+  {
+    "id": "1737778610",
+    "name": "walk stop animation state",
+    "description": "use movement intent to determine whether the character should play walk stop animation",
+    "date": "2025-01-24 23:16:50",
+    "status": "TODO"
+  }
 ]

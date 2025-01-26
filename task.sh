@@ -104,18 +104,22 @@ show_task() {
     return
   fi
 
-  gum format -- """
-### Task Details
+  gum format -- """---
 
 **ID**: $(echo "$task" | jq -r .id)
-**Name**: $(echo "$task" | jq -r .name)
-**Description**: $(echo "$task" | jq -r .description)
 **Date Created**: $(echo "$task" | jq -r .date)
 **Status**: $(echo "$task" | jq -r .status)
+**Name**: _$(echo "$task" | jq -r .name)_
+**Description**: _$(echo "$task" | jq -r .description)_
 """
+
+    echo " "
+    echo " "
+
+  show_task
 }
 
-list_tasks() {
+update_tasks() {
   # Sorted: TODO first, then DONE, by date
   local tasks
   tasks=$(jq -c \
@@ -169,6 +173,9 @@ dispatch() {
   initialize
 
   case "$1" in
+    update)
+      update_tasks
+      ;;
     add)
       shift
       add_task "$@"
@@ -177,12 +184,12 @@ dispatch() {
       shift
       show_task "$1"
       ;;
-    list)
-      list_tasks
+    help)
+      echo "Usage: task {add <desc>|show [id]|update}" >&2
+      exit 1
       ;;
     *)
-      echo "Usage: task {add <desc>|show [id]|list}" >&2
-      exit 1
+      show_task
       ;;
   esac
 }
