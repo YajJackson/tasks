@@ -2,7 +2,7 @@
 
 
 ## Overview
-Simple task management directly in your shell.
+Simple task management directly in your terminal.
 
 
 ## Features
