@@ -54,10 +54,7 @@ show_task() {
     # No ID provided => let user pick one task to show
     local tasks
     tasks=$(jq -c \
-      'sort_by(
-         if .status == "TODO" then 0 else 1 end,
-         .date
-       )[]' \
+      'sort_by(.date) | reverse | sort_by(if .status == "TODO" then 0 else 1 end)[]' \
       "$TASK_FILE")
 
     if [ -z "$tasks" ]; then
@@ -123,10 +120,7 @@ update_tasks() {
   # Sorted: TODO first, then DONE, by date
   local tasks
   tasks=$(jq -c \
-    'sort_by(
-       if .status == "TODO" then 0 else 1 end,
-       .date
-     )[]' \
+    'sort_by(.date) | reverse | sort_by(if .status == "TODO" then 0 else 1 end)[]' \
     "$TASK_FILE")
 
   if [ -z "$tasks" ]; then
