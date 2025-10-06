@@ -178,7 +178,7 @@ dispatch() {
       shift
       show_task "$1"
       ;;
-    help)
+    help|--help)
       echo "Usage: task {add <desc>|show [id]|update}" >&2
       exit 1
       ;;
