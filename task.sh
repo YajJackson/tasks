@@ -22,7 +22,7 @@ add_task() {
 
   # Prompt for task description if not provided
   if [ -z "$task_description" ]; then
-    task_description=$(gum input --placeholder "Enter the task description")
+    task_description=$(gum write --placeholder "Enter the task description (Ctrl+D to finish)")
     if [ -z "$task_description" ]; then
       gum style --foreground 1 "Task description cannot be empty!"
       return
@@ -189,4 +189,3 @@ dispatch() {
 }
 
 dispatch "$@"
-
