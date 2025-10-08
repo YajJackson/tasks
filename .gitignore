@@ -1,13 +1,5 @@
-# Task CLI runtime artifacts
-.project_tasks/
-
-# Node builds
-/webapp/node_modules/
-/webapp/dist/
-/webapp/.vite/
-/webapp/.turbo/
-
 # Logs and caches
+*.claude
 *.log
 .cache/
 /.tmp/

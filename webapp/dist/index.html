@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/@sakun/system.css" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="header-container">
+    <h1 class="title">Task Dashboard</h1>
+    <div class="progress-container">
+      <div class="progress-label">
+        <span id="progress-text">0/0 Complete</span>
+      </div>
+      <div class="progress-bar-outer">
+        <div class="progress-bar-inner" id="progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+
+  <ul role="menu-bar">
+    <li role="menu-item" tabindex="0" aria-haspopup="true">
+      Tasks
+      <ul role="menu">
+        <li role="menu-item" id="add-task-btn"><a href="#add-task">📝 Add Task</a></li>
+        <li role="menu-item" id="find-task-btn"><a href="#find-task">🔍 Find Task</a></li>
+        <li role="menu-item" id="download-tasks-btn"><a href="#download-tasks">💾 Download Tasks</a></li>
+      </ul>
+    </li>
+  </ul>
+
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="🔍 Search tasks..." />
+  </div>
+
+  <div class="table-container">
+    <table id="task-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Status</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="task-tbody">
+        <!-- Tasks will be rendered here -->
+      </tbody>
+    </table>
+    <div id="empty-state" style="display: none;">
+      <p>No tasks yet. Click "Add Task" to get started!</p>
+    </div>
+  </div>
+
+  <!-- Create Modal -->
+  <div id="create-task-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-dialog outer-border">
+      <div class="modal-contents">
+        <h1 class="modal-text">Create Task</h1>
+
+        <form id="create-task-form">
+          <input type="hidden" id="create-task-id">
+          <div class="field-row">
+            <label for="create-task-name">Name:</label>
+            <input type="text" id="create-task-name" required>
+          </div>
+          <div class="field-row">
+            <label for="create-task-description">Description:</label>
+            <textarea id="create-task-description" rows="7" required></textarea>
+          </div>
+          <div class="field-row">
+            <label for="create-task-status">Status:</label>
+            <select id="create-task-status">
+              <option value="TODO">TODO</option>
+              <option value="DONE">DONE</option>
+            </select>
+          </div>
+
+          <section style="display: flex; justify-content: flex-end; gap: 8px">
+            <button class="btn" id="cancel-create-task-modal-button">Cancel</button>
+            <button class="btn" type="submit">OK</button>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="edit-task-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-dialog outer-border">
+      <div class="modal-contents">
+        <h1 class="modal-text">Edit Task</h1>
+
+        <form id="edit-task-form">
+          <input type="hidden" id="edit-task-id">
+          <div class="field-row">
+            <label for="edit-task-name">Name:</label>
+            <input type="text" id="edit-task-name" required>
+          </div>
+          <div class="field-row">
+            <label for="edit-task-description">Description:</label>
+            <textarea id="edit-task-description" rows="7" required></textarea>
+          </div>
+          <div class="field-row">
+            <label for="edit-task-status">Status:</label>
+            <select id="edit-task-status">
+              <option value="TODO">TODO</option>
+              <option value="DONE">DONE</option>
+            </select>
+          </div>
+
+          <section style="display: flex; justify-content: flex-end; gap: 8px">
+            <button class="btn" id="cancel-edit-task-modal-button">Cancel</button>
+            <button class="btn" type="submit">OK</button>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="app.js"></script>
+</body>
+
+</html>

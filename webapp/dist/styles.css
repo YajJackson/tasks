@@ -1,0 +1,202 @@
+/* Custom styles on top of system.css */
+body {
+  background-color: #c0c0c0;
+  padding: 2rem;
+}
+
+/*
+.window {
+   width: 100%;
+ }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+*/
+
+/* Header with progress bar */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 200px;
+}
+
+.progress-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+  font-weight: bold;
+  text-align: center;
+  color: #000;
+}
+
+.progress-bar-outer {
+  height: 24px;
+  background-color: #fff;
+  border: 2px solid #000;
+  box-shadow: inset -1px -1px 0px #dfdfdf, inset 1px 1px 0px #808080;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  background: repeating-linear-gradient(45deg,
+      #00a2e8,
+      #00a2e8 10px,
+      #0080ff 10px,
+      #0080ff 20px);
+  transition: width 0.3s ease;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.progress-bar-inner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent);
+}
+
+.header-actions {
+  margin-bottom: 1rem;
+}
+
+.search-container {
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #000;
+  box-shadow: inset 1px 1px 0px #808080;
+  font-size: 1rem;
+}
+
+.search-container input:focus {
+  outline: 1px dotted #000;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  margin: 0px !important;
+}
+
+.field-row input,
+.field-row textarea,
+.field-row select {
+  width: 100%;
+}
+
+.table-container {
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 0.5rem;
+  border: 2px solid #000;
+  background-color: #fff;
+}
+
+td {
+  padding: 0.5rem;
+  border: 1px solid #000;
+}
+
+tbody tr.done {
+  opacity: 0.6;
+}
+
+th:first-child,
+td:first-child {
+  width: 40px;
+  text-align: center;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border: 1px solid #000;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.task-name {
+  font-weight: bold;
+}
+
+tbody ul[role=menu] {
+  min-width: 0px;
+}
+
+#empty-state {
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.modal-dialog {
+  min-width: 500px
+}
+
+.modal-dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+form label {
+  align-self: start;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th,
+  td {
+    padding: 0.25rem;
+  }
+}
