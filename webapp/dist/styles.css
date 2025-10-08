@@ -129,6 +129,10 @@ tbody tr.done {
   opacity: 0.6;
 }
 
+tbody tr:hover {
+  background-color: #ffffcc;
+}
+
 th:first-child,
 td:first-child {
   width: 40px;
