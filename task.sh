@@ -163,6 +163,20 @@ update_tasks() {
   gum style --foreground 2 "Task statuses updated!"
 }
 
+start_dashboard() {
+  local script_dir
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  local server_script="$script_dir/task_server.py"
+
+  if [ ! -f "$server_script" ]; then
+    gum style --foreground 1 "Error: task_server.py not found!"
+    exit 1
+  fi
+
+  gum style --foreground 2 "Starting task dashboard..."
+  python3 "$server_script"
+}
+
 dispatch() {
   initialize
 
@@ -178,8 +192,11 @@ dispatch() {
       shift
       show_task "$1"
       ;;
+    dashboard)
+      start_dashboard
+      ;;
     help|--help)
-      echo "Usage: task {add <desc>|show [id]|update}" >&2
+      echo "Usage: task {add <desc>|show [id]|update|dashboard}" >&2
       exit 1
       ;;
     *)
