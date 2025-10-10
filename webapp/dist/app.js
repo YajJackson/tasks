@@ -65,6 +65,36 @@ function setupEventListeners() {
       renderTasks(filteredTasks);
     }
   });
+
+  // Enter key to submit in create modal
+  document.getElementById('create-task-name').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      createTaskForm.requestSubmit();
+    }
+  });
+
+  document.getElementById('create-task-tags').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      createTaskForm.requestSubmit();
+    }
+  });
+
+  // Enter key to submit in edit modal
+  document.getElementById('edit-task-name').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      editTaskForm.requestSubmit();
+    }
+  });
+
+  document.getElementById('edit-task-tags').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      editTaskForm.requestSubmit();
+    }
+  });
 }
 
 // Load all tasks
@@ -106,7 +136,13 @@ function renderTasks(tasks) {
     return new Date(b.date) - new Date(a.date);
   });
 
-  taskTable.innerHTML = sortedTasks.map((task, index) => `
+  taskTable.innerHTML = sortedTasks.map((task, index) => {
+    const tags = task.tags || [];
+    const tagsHtml = tags.length > 0
+      ? tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')
+      : '<span class="no-tags">—</span>';
+
+    return `
         <tr class="${task.status === 'DONE' ? 'done' : ''}">
             <td>${index + 1}</td>
             <td>
@@ -116,6 +152,7 @@ function renderTasks(tasks) {
             </td>
             <td class="task-name">${escapeHtml(task.name)}</td>
             <td class="task-description">${escapeHtml(task.description)}</td>
+            <td>${tagsHtml}</td>
             <td class="task-date">${task.date}</td>
             <td class="actions">
 
@@ -123,25 +160,32 @@ function renderTasks(tasks) {
                 <li role="menu-item" tabindex="0" aria-haspopup="true">
                   Actions
                   <ul role="menu">
-                    <li role="menu-item" id="add-task-btn"><a href="#" onclick="openEditModal('${task.id}')">Edit</a></li>
-                    <li role="menu-item" id="find-task-btn"><a href="#" onclick="deleteTask('${task.id}')">Delete</a></li>
+                    <li role="menu-item" id="add-task-btn"><a href="javascript:void(0)" onclick="openEditModal('${task.id}')">Edit</a></li>
+                    <li role="menu-item" id="find-task-btn"><a href="javascript:void(0)" onclick="deleteTask('${task.id}')">Delete</a></li>
                   </ul>
                 </li>
               </ul>
             </td>
         </tr>
-    `).join('');
+    `;
+  }).join('');
 }
 
 // Create new task
 async function createTask() {
   const name = document.getElementById('create-task-name').value.trim();
   const description = document.getElementById('create-task-description').value.trim();
+  const tagsInput = document.getElementById('create-task-tags').value.trim();
 
   if (!name || !description) {
     alert('Both name and description are required');
     return;
   }
+
+  // Parse tags from comma-separated input
+  const tags = tagsInput
+    ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+    : [];
 
   try {
     const response = await fetch(API_URL, {
@@ -149,7 +193,7 @@ async function createTask() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, description }),
+      body: JSON.stringify({ name, description, tags }),
     });
 
     if (response.ok) {
@@ -178,6 +222,11 @@ async function openEditModal(taskId) {
       document.getElementById('edit-task-name').value = task.name;
       document.getElementById('edit-task-description').value = task.description;
       document.getElementById('edit-task-status').value = task.status;
+
+      // Populate tags field
+      const tags = task.tags || [];
+      document.getElementById('edit-task-tags').value = tags.join(', ');
+
       editTaskModal.style.display = 'flex';
     }
   } catch (error) {
@@ -192,11 +241,17 @@ async function updateTask() {
   const name = document.getElementById('edit-task-name').value.trim();
   const description = document.getElementById('edit-task-description').value.trim();
   const status = document.getElementById('edit-task-status').value;
+  const tagsInput = document.getElementById('edit-task-tags').value.trim();
 
   if (!name || !description) {
     alert('Both name and description are required');
     return;
   }
+
+  // Parse tags from comma-separated input
+  const tags = tagsInput
+    ? tagsInput.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+    : [];
 
   try {
     const response = await fetch(`${API_URL}/${taskId}`, {
@@ -204,7 +259,7 @@ async function updateTask() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, description, status }),
+      body: JSON.stringify({ name, description, status, tags }),
     });
 
     if (response.ok) {
@@ -270,8 +325,40 @@ function filterTasks(tasks, query) {
 
   const normalizedQuery = query.toLowerCase().trim();
 
+  // Check if query uses field-specific syntax (e.g., "tag:ui", "name:animation")
+  const fieldMatch = normalizedQuery.match(/^(tag|tags|name|description|desc|status):(.+)$/);
+
+  if (fieldMatch) {
+    const field = fieldMatch[1];
+    const searchValue = fieldMatch[2].trim();
+
+    return tasks.filter(task => {
+      switch (field) {
+        case 'tag':
+        case 'tags':
+          const tags = (task.tags || []).join(' ').toLowerCase();
+          return tags.includes(searchValue);
+
+        case 'name':
+          return task.name.toLowerCase().includes(searchValue);
+
+        case 'description':
+        case 'desc':
+          return task.description.toLowerCase().includes(searchValue);
+
+        case 'status':
+          return task.status.toLowerCase().includes(searchValue);
+
+        default:
+          return false;
+      }
+    });
+  }
+
+  // Default: search across all fields
   return tasks.filter(task => {
-    const searchableText = `${task.name} ${task.description} ${task.status}`.toLowerCase();
+    const tags = (task.tags || []).join(' ');
+    const searchableText = `${task.name} ${task.description} ${task.status} ${tags}`.toLowerCase();
     return searchableText.includes(normalizedQuery);
   });
 }

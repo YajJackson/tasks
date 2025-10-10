@@ -131,6 +131,13 @@ class TaskRequestHandler(SimpleHTTPRequestHandler):
             self._bad_request("Both name and description are required.")
             return
 
+        # Parse tags (optional)
+        tags = payload.get("tags", [])
+        if not isinstance(tags, list):
+            self._bad_request("Tags must be an array.")
+            return
+        tags = [str(tag).strip() for tag in tags if str(tag).strip()]
+
         tasks = load_tasks()
         task = {
             "id": generate_id(),
@@ -138,6 +145,7 @@ class TaskRequestHandler(SimpleHTTPRequestHandler):
             "description": description,
             "date": now_string(),
             "status": "TODO",
+            "tags": tags,
         }
         tasks.append(task)
         save_tasks(tasks)
@@ -162,7 +170,7 @@ class TaskRequestHandler(SimpleHTTPRequestHandler):
             self._bad_request(str(error))
             return
 
-        allowed_fields = {"name", "description", "status"}
+        allowed_fields = {"name", "description", "status", "tags"}
         for key in payload.keys():
             if key not in allowed_fields:
                 self._bad_request(f"Unsupported field '{key}'.")
@@ -188,6 +196,13 @@ class TaskRequestHandler(SimpleHTTPRequestHandler):
                 self._bad_request("Status must be TODO or DONE.")
                 return
             task["status"] = status
+
+        if "tags" in payload:
+            tags = payload["tags"]
+            if not isinstance(tags, list):
+                self._bad_request("Tags must be an array.")
+                return
+            task["tags"] = [str(tag).strip() for tag in tags if str(tag).strip()]
 
         save_tasks(tasks)
         self._json_response(task)

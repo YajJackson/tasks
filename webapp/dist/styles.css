@@ -151,6 +151,24 @@ td:first-child {
   font-weight: bold;
 }
 
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: #008080;
+  color: #fff;
+  border: 1px solid #000;
+  font-size: 0.75rem;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 1px 1px 0px #000;
+  margin: 1px;
+}
+
+.no-tags {
+  color: #808080;
+  font-size: 0.875rem;
+}
+
 tbody ul[role=menu] {
   min-width: 0px;
 }
